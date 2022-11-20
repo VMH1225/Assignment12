@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 #include "input.h"
 
@@ -12,9 +14,11 @@ int menuOption();
 void challenge1();
 void challenge2();
 void challenge3();
+int* createRandomArray(int);
 
 int main() {
-
+		// move ptr from challenge1 and create the ptr here that is visible for the first 2 challenges and release the
+		// dynamically allocated memory after each program uses it. 
 	do {
 		switch (menuOption()) {
 		case 0: exit(0);
@@ -41,6 +45,7 @@ int menuOption() {
 }
 
 void challenge1() {	
+	
 	cout << "\n\t1> Searching unsorted dynamic arrays\n\t";
 	cout << string(75, 205);
 	cout << "\n\t1> Read data file and store into the array";
@@ -52,6 +57,19 @@ void challenge1() {
 	cout << "\n\t0> return\n\t";
 	cout << string(75, 205);
 	int option = inputInteger("\n\tOption: ", 0, 4);
+
+	do {
+		switch (option) {
+		case 0: exit(0);
+		case 1: {
+			system("cls"); 
+			int num = inputInteger("\n\tEnter the size of the dynamic array: ",1, 10000);
+			int* ptr = createRandomArray(num);
+			break;
+		}
+		default: break;
+		}
+	} while (true);
 }
 
 void challenge2() {
@@ -80,4 +98,24 @@ void challenge3() {
 	cout << "\n\t0> return\n\t";
 	cout << string(75, 205);
 	int option = inputInteger("\n\tOption: ", 0, 4);
+}
+
+
+int* createRandomArray(int size) {
+	int* arrPtr = new int[size];
+	const int MAX_VALUE = 100;
+	const int MIN_VALUE = 0;
+	unsigned seed = time(0);
+	srand(seed);
+	int randNum;
+	for (int i = 0; i < size; i++) {
+		randNum = (rand() % (MAX_VALUE - (MIN_VALUE + 1) + MIN_VALUE));
+		arrPtr[i] = randNum;
+	}
+
+	for (int i = 0; i < size; i++) {
+		cout << "\n" << arrPtr[i];
+	}
+
+	return arrPtr;
 }
