@@ -15,8 +15,10 @@ void challenge1();
 void challenge2();
 void challenge3();
 int* createRandomArray(int);
+int* ptr = nullptr;
 
 int main() {
+
 		// move ptr from challenge1 and create the ptr here that is visible for the first 2 challenges and release the
 		// dynamically allocated memory after each program uses it. 
 	do {
@@ -45,31 +47,62 @@ int menuOption() {
 }
 
 void challenge1() {	
+	int option;
+	bool flag = true;
 	
-	cout << "\n\t1> Searching unsorted dynamic arrays\n\t";
-	cout << string(75, 205);
-	cout << "\n\t1> Read data file and store into the array";
-	cout << "\n\t2> Add an element to the dynamic array";
-	cout << "\n\t3> Display elements from the array";
-	cout << "\n\t4> Search for an element from the array";
-	cout << "\n\t5> Clear the array\n\t";
-	cout << string(75, 196);
-	cout << "\n\t0> return\n\t";
-	cout << string(75, 205);
-	int option = inputInteger("\n\tOption: ", 0, 4);
-
 	do {
+		cout << "\n\t1> Searching unsorted dynamic arrays\n\t";
+		cout << string(75, 205);
+		cout << "\n\t1> Read data file and store into the array";
+		cout << "\n\t2> Add an element to the dynamic array";
+		cout << "\n\t3> Display elements from the array";
+		cout << "\n\t4> Search for an element from the array";
+		cout << "\n\t5> Clear the array\n\t";
+		cout << string(75, 196);
+		cout << "\n\t0> return\n\t";
+		cout << string(75, 205);
+		option = inputInteger("\n\tOption: ", 0, 4);
+		flag = true;
 		switch (option) {
-		case 0: exit(0);
+		case 0: {
+			delete[] ptr;
+			ptr = nullptr;
+			flag = false;
+			break;
+		}
 		case 1: {
+			delete[] ptr;
 			system("cls"); 
 			int num = inputInteger("\n\tEnter the size of the dynamic array: ",1, 10000);
-			int* ptr = createRandomArray(num);
+			ptr = createRandomArray(num);
+			system("pause");
 			break;
+		}
+		case 2: {
+			cout << "\nhi";
 		}
 		default: break;
 		}
-	} while (true);
+	} while (flag);
+}
+
+int* createRandomArray(int size) {
+	int* arrPtr = new int[size];
+	const int MAX_VALUE = 100;
+	const int MIN_VALUE = 0;
+	unsigned seed = time(0);
+	srand(seed);
+	int randNum;
+	for (int i = 0; i < size; i++) {
+		randNum = (rand() % (MAX_VALUE - (MIN_VALUE + 1) + MIN_VALUE));
+		arrPtr[i] = randNum;
+	}
+
+	for (int i = 0; i < size; i++) {
+		cout << "\n" << arrPtr[i];
+	}
+
+	return arrPtr;
 }
 
 void challenge2() {
@@ -94,28 +127,8 @@ void challenge3() {
 	cout << "\n\t3> Insert an element into the dynamic array";
 	cout << "\n\t4> Remove an element from the dynamic array";
 	cout << "\n\t5> Display all records from the array\n\t";
-	cout << string(75, 196);	
+	cout << string(75, 196);
 	cout << "\n\t0> return\n\t";
 	cout << string(75, 205);
 	int option = inputInteger("\n\tOption: ", 0, 4);
-}
-
-
-int* createRandomArray(int size) {
-	int* arrPtr = new int[size];
-	const int MAX_VALUE = 100;
-	const int MIN_VALUE = 0;
-	unsigned seed = time(0);
-	srand(seed);
-	int randNum;
-	for (int i = 0; i < size; i++) {
-		randNum = (rand() % (MAX_VALUE - (MIN_VALUE + 1) + MIN_VALUE));
-		arrPtr[i] = randNum;
-	}
-
-	for (int i = 0; i < size; i++) {
-		cout << "\n" << arrPtr[i];
-	}
-
-	return arrPtr;
 }
