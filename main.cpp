@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <iostream>
+#include <string>
 #include <cstdlib>
 #include <ctime>
 using namespace std;
@@ -14,14 +15,13 @@ int menuOption();
 void challenge1();
 void challenge2();
 void challenge3();
-int* createRandomArray(int);
+string* createRandomArray(int);
 void addElement(int&);
 void printArray(int);
-void serialSearch(int, int);
-int* ptr = nullptr;
+void serialSearch(string, int);
+string* ptr = nullptr;
 
 int main() {
-
 	do {
 		switch (menuOption()) {
 		case 0: exit(0);
@@ -88,8 +88,8 @@ void challenge1() {
 			break;
 		}
 		case 4: {
-			int searchValue = inputInteger("\n\tEnter a value to search for in the array: ", 0, 100);
-			
+			string searchValue = inputString("\n\tEnter a value to search for in the array: ", false);
+
 			serialSearch(searchValue, sizeOfArray);
 			break;
 		}
@@ -110,8 +110,8 @@ void challenge1() {
 	} while (flag);
 }
 
-int* createRandomArray(int size) {
-	int* arrPtr = new int[size];
+string* createRandomArray(int size) {
+	string* arrPtr = new string[size];
 	const int MAX_VALUE = 100;
 	const int MIN_VALUE = 0;
 	unsigned seed = time(0);
@@ -119,7 +119,7 @@ int* createRandomArray(int size) {
 	int randNum;
 	for (int i = 0; i < size; i++) {
 		randNum = (rand() % (MAX_VALUE - (MIN_VALUE + 1) + MIN_VALUE));
-		arrPtr[i] = randNum;
+		arrPtr[i] = to_string(randNum);
 	}
 
 	for (int i = 0; i < size; i++) {
@@ -131,20 +131,21 @@ int* createRandomArray(int size) {
 
 void addElement(int &size) {
 	int num;
-	if (ptr == nullptr) {
+	if (size == 0) {
 		num = inputInteger("\n\tEnter a number to add to the dynamic array: ", 0, 100);
-		ptr = new int[1];
+		ptr = new string[1];
+		ptr[0] = to_string(num);
 		size = 1;
 	}
 	else {
 		size += 1;
-		int* temp = new int[size];
+		string* temp = new string[size];
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size - 1; i++) {
 			temp[i] = ptr[i];
 		}	
 		num = inputInteger("\n\tEnter a number to add to the dynamic array: ", 0, 100);
-		temp[size - 1] = num;
+		temp[size - 1] = to_string(num);
 
 		delete[] ptr;
 		ptr = temp;
@@ -164,7 +165,7 @@ void printArray(int size) {
 	}
 }
 
-void serialSearch(int val, int size) {
+void serialSearch(string val, int size) {
 	int index = -1;
 	if (size == 0) {
 		cout << "\n\tThe array is empty.";
