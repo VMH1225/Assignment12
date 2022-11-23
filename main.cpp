@@ -1,6 +1,6 @@
 // CMPR 131 Fall 2022 Assignment 12 Searches and Hashing
 // Date: 11-22-2022
-// By: Victor Huerta
+// By:
 
 
 #include <iostream>
