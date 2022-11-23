@@ -20,9 +20,9 @@ void addElement(int&);
 void printArray(int);
 void serialSearch(string, int);
 void selectionSort(string*, int);
-int binarySearchString(string* arr, string x, int n);
 bool is_number(const std::string& s);
 void selectionSort(string* array, int NUM_NAMES);
+int binarySearch(string* arr, string x, int n);
 string* ptr = nullptr;
 
 int main() {
@@ -40,7 +40,7 @@ int main() {
 // add selection sort function and swap function for challenge 2
 int menuOption() {	
 
-	cout << "\n\tCMPR131 Chapter 12: Searches and hashing by Victor Huerta (11/22/22)\n\t";
+	cout << "\n\tCMPR131 Chapter 12: Searches and hashing by  (11/22/22)\n\t";
 	cout << string(75, 205);
 	cout << "\n\t1> Searching from an unsorted dynamic array";
 	cout << "\n\t2> Searching from a sorted dynamic array";
@@ -137,7 +137,7 @@ string* createRandomArray(int size) {
 void addElement(int &size) {
 	int num;
 	if (size == 0) {
-		num = inputInteger("\n\tEnter a number to add to the dynamic array: ", 0, 100);
+		num = inputInteger("\n\tEnter an element to add to the array: ", 0, 100);
 		ptr = new string[1];
 		ptr[0] = to_string(num);
 		size = 1;
@@ -235,7 +235,13 @@ void challenge2() {
 		case 4: {
 			string searchValue = inputString("\n\tEnter a value to search for in the array: ", false);
 			if (sizeOfArray > 0) {
-				serialSearch(searchValue, sizeOfArray);
+				int index = binarySearch(ptr, searchValue, sizeOfArray);
+				if (index == -1) {
+					cout << "\n\tCould not locate " << searchValue << " in array.";
+				}
+				else {
+					cout << "\n\tValue " << searchValue << " found at index " << index << ".";
+				}
 			}
 			else {
 				cout << "\n\tThe array is empty";
@@ -294,6 +300,36 @@ void selectionSort(string* array, int NUM_NAMES)
 		array[minIndex] = array[startScan];
 		array[startScan] = minValue;
 	}
+}
+
+int binarySearch(string* arr, string x, int n)
+{
+	int l = 0;
+	int r = n - 1;
+	while (l <= r)
+	{
+		int m = l + (r - l) / 2;
+
+		int res = -1000;   //some random value assigned because if res is already 0 then
+		//it will always return 0    
+		if (x == (arr[m]))
+			res = 0;
+
+
+		// Check if x is present at mid
+		if (res == 0)
+			return m;
+
+		// If x greater, ignore left half
+		if (x > (arr[m]))
+			l = m + 1;
+
+		// If x is smaller, ignore right half
+		else
+			r = m - 1;
+	}
+
+	return -1;
 }
 
 
